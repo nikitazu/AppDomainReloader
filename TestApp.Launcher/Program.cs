@@ -8,15 +8,19 @@ namespace TestApp.Launcher
         {
             var quit = new ConsoleKeyInfo('q', ConsoleKey.Q, false, false, false);
             var reload = new ConsoleKeyInfo('r', ConsoleKey.R, false, false, false);
+            var unload = new ConsoleKeyInfo('u', ConsoleKey.U, false, false, false);
             var stop = false;
 
             using (var host = new AppDomainReloader.DomainHost("foo"))
             {
                 do
                 {
-                    var domainEntry = host.CreateEntryPoint("TestApp.Library", "TestApp.Library.EntryPoint");
-                    object answer = domainEntry.Execute(new YoMessage());
-                    Console.WriteLine("data from domain: {0}", answer);
+                    if (host.IsDomainLoaded)
+                    {
+                        var domainEntry = host.CreateEntryPoint("TestApp.Library", "TestApp.Library.EntryPoint");
+                        object answer = domainEntry.Execute(new YoMessage());
+                        Console.WriteLine("data from domain: {0}", answer);
+                    }
 
                     var key = Console.ReadKey();
                     if (key == quit)
@@ -25,10 +29,14 @@ namespace TestApp.Launcher
                     }
                     else if (key == reload)
                     {
-                        host.RestartDomain();
+                        host.ReloadDomain();
+                    }
+                    else if (key == unload)
+                    {
+                        host.UnloadDomain();
                     }
 
-                    Console.WriteLine("Press <q> to quit, <r> to reload, or any other key to continue");
+                    Console.WriteLine("Press <q> to quit, <r> to reload, <u> to unload, or any other key to continue");
                 }
                 while (!stop);
             }

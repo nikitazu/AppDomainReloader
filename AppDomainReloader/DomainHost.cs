@@ -6,32 +6,43 @@ namespace AppDomainReloader
     {
         private string _friendlyName;
         private AppDomain _domain;
-        
+
+        public bool IsDomainLoaded
+        {
+            get { return _domain != null; }
+        }
+
         public DomainHost(string friendlyName)
         {
             _friendlyName = friendlyName;
-            StartDomain();
+            LoadDomain();
         }
 
-        public void RestartDomain()
+        public void ReloadDomain()
         {
-            StopDomain();
-            StartDomain();
+            UnloadDomain();
+            LoadDomain();
         }
 
-        public void StartDomain()
+        public void LoadDomain()
         {
-            AppDomainSetup setup = new AppDomainSetup();
-            setup.ApplicationBase = "";
-            setup.ConfigurationFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+            if (!IsDomainLoaded)
+            {
+                AppDomainSetup setup = new AppDomainSetup();
+                setup.ApplicationBase = "";
+                setup.ConfigurationFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
 
-            _domain = AppDomain.CreateDomain(_friendlyName, null, setup);
+                _domain = AppDomain.CreateDomain(_friendlyName, null, setup);
+            }
         }
 
-        public void StopDomain()
+        public void UnloadDomain()
         {
-            AppDomain.Unload(_domain);
-            _domain = null;
+            if (IsDomainLoaded)
+            {
+                AppDomain.Unload(_domain);
+                _domain = null;
+            }
         }
 
         public IEntryPoint CreateEntryPoint(string assemblyFileName, string typeFullName)
@@ -41,7 +52,7 @@ namespace AppDomainReloader
 
         public void Dispose()
         {
-            StopDomain();
+            UnloadDomain();
         }
     }
 }
