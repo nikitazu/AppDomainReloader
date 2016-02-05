@@ -10,23 +10,22 @@ namespace TestApp.Launcher
             var reload = new ConsoleKeyInfo('r', ConsoleKey.R, false, false, false);
             var stop = false;
 
-            using (var starter = new AppDomainReloader.DomainHost("foo"))
+            using (var host = new AppDomainReloader.DomainHost("foo"))
             {
                 do
                 {
-                    var domainEntry = starter.CreateEntryPoint("TestApp.Library", "TestApp.Library.EntryPoint");
+                    var domainEntry = host.CreateEntryPoint("TestApp.Library", "TestApp.Library.EntryPoint");
                     object answer = domainEntry.Execute(new YoMessage());
                     Console.WriteLine("data from domain: {0}", answer);
 
                     var key = Console.ReadKey();
-
                     if (key == quit)
                     {
                         stop = true;
                     }
                     else if (key == reload)
                     {
-                        starter.RestartDomain();
+                        host.RestartDomain();
                     }
 
                     Console.WriteLine("Press <q> to quit, <r> to reload, or any other key to continue");
