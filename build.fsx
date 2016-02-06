@@ -46,6 +46,19 @@ Target "pack" (fun _ ->
     if result <> 0 then failwith ("pack failed")
 )
 
+Target "push" (fun _ ->
+    let latestPackage =
+        !! "nugets\*.nupkg"
+        |> Seq.last
+    let result =
+        ExecProcess (fun info ->
+            info.FileName <- ".paket/paket.exe"
+            info.WorkingDirectory <- "./"
+            info.Arguments <- "push url https://www.nuget.org file " + latestPackage
+        )(System.TimeSpan.FromSeconds 15.)
+    if result <> 0 then failwith ("push failed")
+)
+
 // Dependencies
 //
 "test"
