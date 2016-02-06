@@ -6,11 +6,7 @@ namespace TestApp.Launcher
     {
         static void Main(string[] args)
         {
-            var quit = new ConsoleKeyInfo('q', ConsoleKey.Q, false, false, false);
-            var reload = new ConsoleKeyInfo('r', ConsoleKey.R, false, false, false);
-            var unload = new ConsoleKeyInfo('u', ConsoleKey.U, false, false, false);
             var stop = false;
-
             using (var host = new AppDomainReloader.DomainHost("foo"))
             {
                 do
@@ -25,17 +21,11 @@ namespace TestApp.Launcher
                     Console.WriteLine("Press <q> to quit, <r> to reload, <u> to unload, or any other key to continue");
 
                     var key = Console.ReadKey();
-                    if (key == quit)
+                    switch (key.Key)
                     {
-                        stop = true;
-                    }
-                    else if (key == reload)
-                    {
-                        host.ReloadDomain();
-                    }
-                    else if (key == unload)
-                    {
-                        host.UnloadDomain();
+                        case ConsoleKey.Q: stop = true; break;
+                        case ConsoleKey.R: host.ReloadDomain(); break;
+                        case ConsoleKey.U: host.UnloadDomain(); break;
                     }
                 }
                 while (!stop);
