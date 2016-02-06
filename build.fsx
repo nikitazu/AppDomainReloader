@@ -30,6 +30,22 @@ Target "build" (fun _ ->
     |> Log "build-out: "
 )
 
+Target "release" (fun _ ->
+    !! "AppDomainReloader/*.csproj"
+    |> MSBuildRelease "AppDomainReloader/bin/Release/" "Build"
+    |> Log "build-release-out: "
+)
+
+Target "pack" (fun _ ->
+    let result =
+        ExecProcess (fun info ->
+            info.FileName <- ".paket/paket.exe"
+            info.WorkingDirectory <- "./"
+            info.Arguments <- "pack output nugets"
+        )(System.TimeSpan.FromSeconds 15.)
+    if result <> 0 then failwith ("pack failed")
+)
+
 // Dependencies
 //
 "test"
@@ -37,5 +53,8 @@ Target "build" (fun _ ->
 
 "build-test-app"
     ==> "test-app"
+
+"release"
+    ==> "pack"
 
 RunTargetOrDefault "build"

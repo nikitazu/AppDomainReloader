@@ -1,0 +1,7 @@
+type project
+licenseUrl http://opensource.org/licenses/MIT
+id AppDomainReloader
+version 1.0.0
+authors nikitazu
+description
+    Allows to reload application libraries in the AppDomain at runtime.
