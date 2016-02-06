@@ -1,15 +1,15 @@
 #r "packages/FAKE/tools/FakeLib.dll"
 open Fake
 
-Target "Test" (fun _ ->
+Target "test" (fun _ ->
     trace "Testing stuff..."
 )
 
-Target "Deploy" (fun _ ->
+Target "build" (fun _ ->
     trace "Heavy deploy action"
 )
 
-"Test"
-   ==> "Deploy"
+"test"
+   ==> "build"
 
-Run "Deploy"
+RunTargetOrDefault "build"
