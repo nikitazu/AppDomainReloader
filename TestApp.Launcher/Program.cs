@@ -22,6 +22,8 @@ namespace TestApp.Launcher
                         Console.WriteLine("data from domain: {0}", answer);
                     }
 
+                    Console.WriteLine("Press <q> to quit, <r> to reload, <u> to unload, or any other key to continue");
+
                     var key = Console.ReadKey();
                     if (key == quit)
                     {
@@ -35,8 +37,6 @@ namespace TestApp.Launcher
                     {
                         host.UnloadDomain();
                     }
-
-                    Console.WriteLine("Press <q> to quit, <r> to reload, <u> to unload, or any other key to continue");
                 }
                 while (!stop);
             }
