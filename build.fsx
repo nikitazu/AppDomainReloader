@@ -5,8 +5,17 @@ Target "test" (fun _ ->
     trace "Testing stuff..."
 )
 
+Target "test-app" (fun _ ->
+    !! "TestApp.Library/*.csproj"
+    ++ "TestApp.Launcher/*.csproj"
+    |> MSBuildDebug "TestApp.Launcher/bin/Debug/" "Build"
+    |> Log "test-app-out: "
+)
+
 Target "build" (fun _ ->
-    trace "Heavy deploy action"
+    !! "AppDomainReloader/*.csproj"
+    |> MSBuildDebug "AppDomainReloader/bin/Debug/" "Build"
+    |> Log "build-out: "
 )
 
 "test"
