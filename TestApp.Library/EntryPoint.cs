@@ -1,10 +1,9 @@
 ﻿using System;
-using AppDomainReloader;
 
 namespace TestApp.Library
 {
     [Serializable]
-    public class EntryPoint : MarshalByRefObject, IEntryPoint
+    public class EntryPoint : MarshalByRefObject
     {
         public object Execute(object message)
         {

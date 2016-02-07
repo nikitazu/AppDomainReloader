@@ -13,7 +13,7 @@ namespace TestApp.Launcher
                 {
                     if (host.IsDomainLoaded)
                     {
-                        var domainEntry = host.CreateEntryPoint("TestApp.Library", "TestApp.Library.EntryPoint");
+                        var domainEntry = host.CreateDynamicEntryPoint("TestApp.Library", "TestApp.Library.EntryPoint");
                         object answer = domainEntry.Execute(new YoMessage());
                         Console.WriteLine("data from domain: {0}", answer);
                     }

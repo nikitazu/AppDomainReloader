@@ -50,6 +50,11 @@ namespace AppDomainReloader
             return (IEntryPoint)_domain.CreateInstanceAndUnwrap(assemblyFileName, typeFullName);
         }
 
+        public dynamic CreateDynamicEntryPoint(string assemblyFileName, string typeFullName)
+        {
+            return _domain.CreateInstanceAndUnwrap(assemblyFileName, typeFullName);
+        }
+
         public void Dispose()
         {
             UnloadDomain();

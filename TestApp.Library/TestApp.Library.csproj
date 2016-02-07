@@ -44,12 +44,6 @@
     <Compile Include="Foo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AppDomainReloader\AppDomainReloader.csproj">
-      <Project>{253532b9-3bf9-4b06-aeaa-90eee648b7f6}</Project>
-      <Name>AppDomainReloader</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
